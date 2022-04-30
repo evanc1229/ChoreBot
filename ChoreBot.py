@@ -35,33 +35,49 @@ class ChoreCalendar:
         days = ['monday','tuesday','wednesday','thursday','friday','saturday','sunday']
         if shift != 'morning' or shift != 'afternoon':
             print('Please enter shift as either \'morning\' or \'afternoon\'')
-            return 
+            return -1
         if day not in days:
             print('Please enter a valid day ex. \'monday\'')
-            return
+            return -1
         return self.__dishchart[day,shift][0]
 
     '''
     This method marks a given dish shift as complete based on the day and shift
     '''
     def CompleteDishShift(self, shift, day):
-        day = day.lower
-        shift = shift.lower
+        day = day.lower()
+        shift = shift.lower()
         days = ['monday','tuesday','wednesday','thursday','friday','saturday','sunday']
-        if shift != 'morning' or shift != 'afternoon':
+        shifts = ['morning','afternoon']
+        if shift not in shifts:
             print('Please enter shift as either \'morning\' or \'afternoon\'')
-            return 
+            return -1
         if day not in days:
             print('Please enter a valid day ex. \'monday\'')
-            return
-        self.__dishchart[day,shift][1] == True
-    
+            return -1
+        if self.__dishchart.at[day,shift][1] != True:
+            self.__dishchart.at[day,shift] = (self.__dishchart.loc[day,shift][0], True)
+            return True
+        else: 
+            print('This was already completed')
+            return -1
     
     '''
     This Method gets the person responsible for a chore at a given index
     '''
     def GetChoreAsignee(self,index):
         return self.__chorechart.iloc[index,1]
+
+    '''
+    This method completes a chore
+    '''
+    def CompleteChore(self,index):
+        if self.__chorechart['complete'][index] != True:
+            self.__chorechart['complete'][index] = True
+            return True
+        else: 
+            print('This was already completed')
+            return -1
     
     '''
     This method shuffles the chores and dish shifts around in a somewhat even way.
@@ -91,10 +107,18 @@ class ChoreCalendar:
 h = ChoreCalendar(['Evan','Henry','Lexie','Ollie','Sarah','Monet','Ethan','Jonny'], ['a','b','c','d','e','f','g','h'])
 h.printChores()
 h.printDishes()
-print('------ Shuffle -----')
 h.Shuffle()
+print('---------')
 h.printChores()
 h.printDishes()
-
-
+h.Shuffle()
+print('---------')
+h.printChores()
+h.printDishes()
+h.Shuffle()
+print('---------')
+h.printChores()
+h.printDishes()
+h.Shuffle()
+print('---------')
 
